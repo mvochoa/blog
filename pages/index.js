@@ -11,16 +11,12 @@ export async function getStaticProps({ params }) {
   }
 }
 
-export default function IndexPage({ posts }) {
+export default function IndexPage() {
   return (
     <>
-      <ul>
-        {posts.map((item, index) => (
-          <li key={index}>
-            <Link href={`/blog/${item.slug}`}>{item.title}</Link>
-          </li>
-        ))}
-      </ul>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh" }}>
+        <img src="/images/stop.png" style={{ height: "80%" }} />
+      </div>
     </>
   )
 }
