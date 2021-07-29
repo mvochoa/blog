@@ -11,7 +11,7 @@
     "dev": "next dev",
     "prettier": "prettier --write ./pages ./lib",
     "build": "yarn run prettier && next build",
-    "export": "yarn run build && next export"
+    "export": "yarn run build && next export -o build"
   },
   "license": "MIT",
   "devDependencies": {

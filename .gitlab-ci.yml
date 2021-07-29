@@ -1,18 +1,18 @@
-pages:
-  image: node:16-alpine
+stages:
+  - build
+
+build::image:
+  stage: build
+  image: docker:stable
+  services:
+    - docker:stable-dind
+  variables:
+    DOCKER_HOST: docker:2375
+  before_script:
+    - echo "$DOCKER_REGISTRY_PASS" | docker login --username $DOCKER_REGISTRY_USER --password-stdin $DOCKER_REGISTRY
   script:
-    - yarn
-    - yarn run export
-    - rm -Rf public
-    - mv out public
-  artifacts:
-    paths:
-      - public
-  cache:
-    - key:
-        files:
-          - yarn.lock
-      paths:
-        - node_modules/
+    - export TAG=$( if [[ ! -z "$DOCKER_REGISTRY" ]]; then echo "$DOCKER_REGISTRY/"; fi )mvochoa/blog:$CI_COMMIT_TAG
+    - docker build -t $TAG .
+    - docker push $TAG
   only:
-    - main
+    - tags
