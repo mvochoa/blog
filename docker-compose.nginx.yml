@@ -1,0 +1,13 @@
+version: "3.5"
+services:
+    web:
+        image: ${TAG}
+        networks:
+            nginx:
+        environment:
+            - VIRTUAL_HOST=mvochoa.com
+            - LETSENCRYPT_HOST=mvochoa.com
+
+networks:
+    nginx:
+        external: true

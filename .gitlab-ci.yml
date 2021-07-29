@@ -15,19 +15,19 @@ stages:
     - docker build -t $TAG .
     - docker push $TAG
 
-# build::image:
-#   extends: .build
-#   before_script:
-#     - export CI_COMMIT_TAG=latest
-#   only:
-#     - main
+build::image:
+  extends: .build
+  before_script:
+    - export CI_COMMIT_TAG=latest
+  only:
+    - main
 
-# build::image::tag:
-#   extends: .build
-#   before_script:
-#     - echo "Ok"
-#   only:
-#     - tags
+build::image::tag:
+  extends: .build
+  before_script:
+    - echo "Ok"
+  only:
+    - tags
 
 deploy::latest:
   stage: deploy
