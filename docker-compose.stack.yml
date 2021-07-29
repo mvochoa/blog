@@ -1,56 +1,13 @@
-version: "3.8"
+version: "3.5"
 services:
-    nginx_proxy:
-        image: nginx:stable-alpine
-        container_name: nginx_proxy
-        networks:
-            nginx:
-        ports:
-            - 80:80
-            - 443:443
-        volumes:
-            - vhost:/etc/nginx/vhost.d
-            - conf:/etc/nginx/conf.d
-            - html:/usr/share/nginx/html
-            - certs:/etc/nginx/certs:ro
-    nginx_gen:
-        image: jwilder/docker-gen:0.7.0
-        container_name: nginx_gen
-        depends_on:
-            - nginx_proxy
-        volumes:
-            - /var/run/docker.sock:/tmp/docker.sock:ro
-            - ./nginx.tmpl:/etc/docker-gen/templates/nginx.tmpl:ro
-            - conf:/etc/nginx/conf.d
-            - certs:/etc/nginx/certs:ro
-        command: ["-notify-sighup", "nginx_proxy", "-watch", "-only-exposed", "-wait", "5s:30s", "/etc/docker-gen/templates/nginx.tmpl", "/etc/nginx/conf.d/default.conf"]
-    letsencrypt:
-        image: jrcs/letsencrypt-nginx-proxy-companion:v1.13
-        depends_on:
-            - nginx_proxy
-            - nginx_gen
-        volumes:
-            - vhost:/etc/nginx/vhost.d
-            - conf:/etc/nginx/conf.d
-            - html:/usr/share/nginx/html
-            - certs:/etc/nginx/certs:rw
-            - /var/run/docker.sock:/var/run/docker.sock:ro
+    web:
+        image: ${TAG}
         networks:
             nginx:
         environment:
-            - NGINX_PROXY_CONTAINER=nginx_proxy
-            - NGINX_DOCKER_GEN_CONTAINER=nginx_gen
-            - DEFAULT_EMAIL=letsencrypt@mvochoa.com
-
-volumes:
-    vhost:
-    conf:
-    certs:
-    html:
-    tmpl:
+            - VIRTUAL_HOST=mvochoa.com,www.mvochoa.com
+            - LETSENCRYPT_HOST=mvochoa.com,www.mvochoa.com
 
 networks:
-  nginx:
-    name: nginx
-    driver: overlay
-    attachable: true
+    nginx:
+        external: true

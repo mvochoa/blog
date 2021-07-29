@@ -6,5 +6,5 @@ summary: Descripción
 # Dos
 
 ```js
-var hola = "Mundo!"
+var hola = "Mundo"
 ```
