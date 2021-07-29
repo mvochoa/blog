@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "next": "^11.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-markdown": "^6.0.2"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "prettier": "prettier --write ./pages ./lib",
+    "build": "yarn run prettier && next build",
+    "export": "yarn run build && next export"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "^2.3.2"
+  }
+}

@@ -1,0 +1,18 @@
+pages:
+  image: node:16-alpine
+  script:
+    - yarn
+    - yarn run export
+    - rm -Rf public
+    - mv out public
+  artifacts:
+    paths:
+      - public
+  cache:
+    - key:
+        files:
+          - yarn.lock
+      paths:
+        - node_modules/
+  only:
+    - main
