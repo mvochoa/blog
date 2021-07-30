@@ -18,15 +18,9 @@ stages:
 build::image:
   extends: .build
   before_script:
-    - export CI_COMMIT_TAG=latest
+    - 'if [[ -z "$CI_COMMIT_TAG" ]]; then export CI_COMMIT_TAG=latest; fi'
   only:
     - main
-
-build::image::tag:
-  extends: .build
-  before_script:
-    - echo "Ok"
-  only:
     - tags
 
 deploy::latest:
