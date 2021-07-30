@@ -8,6 +8,7 @@ services:
             - node_modules:/var/app/node_modules
         ports:
             - 3000:3000
+            - 9229:9229
         command: sh -c 'yarn && yarn run dev'
 
 volumes:

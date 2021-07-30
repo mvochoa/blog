@@ -1,14 +1,16 @@
 import ReactMarkdown from 'react-markdown'
 
 import { getAllSlugPages, getPageContentBySlug } from '@/lib/markdown'
+import { getStaticPropsSuper } from '@/lib/super'
 
-export async function getStaticProps({ params }) {
-  const { slug } = params
+export async function getStaticProps(ctx) {
+  const { slug } = ctx.params
   const page = getPageContentBySlug(slug, ['title', 'summary', 'content'], '_blog')
   return {
     props: {
       meta: page,
       content: page.content,
+      ...(await getStaticPropsSuper(ctx)).props,
     },
   }
 }
@@ -18,7 +20,6 @@ export async function getStaticPaths() {
   const paths = posts.map(({ slug }) => ({
     params: {
       slug,
-      txt: 'index',
     },
   }))
   return {
